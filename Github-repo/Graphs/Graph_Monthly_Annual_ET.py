@@ -6,7 +6,6 @@ Created on Wed Jul  2 16:27:53 2025
 """
 import hydrostats.data as hd
 import pandas as pd
-import pandas as to_csv
 import hydrostats.visual as hv
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -33,24 +32,19 @@ def monthly_total(datat): # function to calculate monthly totals
     return a.sum()
 totalmonths = monthly_total(datat)
 #
-plt.rcParams.update({'font.size': 14})
-plt.rcParams["font.family"] = "Times New Roman"
-plt.rcParams['patch.force_edgecolor'] = True
-plt.rcParams['figure.facecolor'] = '0.90'
-#
 # Support calculations
 totalannual = year_total(datat)
 type_total = 'annual' # Choose the type of graph you want to produce: annual or monthly
-pd.options.display.max_rows = 30
-num_linhas = totalannual.shape[0]  # to know the number of years
 #
 # If you chose to make an annual chart or a monthly chart
 if type_total == 'annual':
     xdatat = totalannual.index.tolist()
+    num_years = totalannual.shape[0]  # to know the number of years
+    print("Number of years:", num_years)
     total = totalannual  #for annual totals   
 else:
     xdatat = ['jan.','fev.','mar.','abr.','maio','jun.','jul.','ago.','set.','out.','nov.','dez.']
-    total = totalmonths/num_linhas  #for annual totals
+    total = totalmonths/num_years  #for annual totals
 #        
 plt.rcParams.update({'font.size': 24})
 plt.rcParams["font.family"] = "Times New Roman"
@@ -66,14 +60,6 @@ desvpadssebopcol=total.iloc[:,7].values #variable for standard deviation
 ymedianamodcol = total.iloc[:,10].values #variable for median
 ymedianassebopol=total.iloc[:,11].values #variable for median
 #"""
-#
-##boxplot
-plt.boxplot(ymediamodcol)
-plt.show()
-#
-plt.rcParams.update({'font.size': 25})
-plt.rcParams["font.family"] = "Times New Roman"
-#
 # define figure
 fig, ax = plt.subplots(1, figsize=(20, 9))
 # numerical x
